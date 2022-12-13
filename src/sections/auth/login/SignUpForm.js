@@ -56,7 +56,7 @@ export default function SignUpForm() {
         />
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={register}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={register} sx={{mt: 2}}>
         Sign Up
       </LoadingButton>
     </>

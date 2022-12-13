@@ -110,7 +110,7 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} sm={6} md={3}>
           <DesktopDatePicker
-              label="Date of Appointment"
+              label="Date of Extrapolation"
               inputFormat="MM/DD/YYYY"
               value={dateOfExtrapolation}
               onChange={handleChange}
