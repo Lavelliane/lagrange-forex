@@ -38,7 +38,7 @@ export default function DashboardAppPage() {
 
   const fetchTimeSeries = async () => {
     const response = await fetch(
-      `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${stockCode}&apikey=JCPHBSQUN3UH142O`
+      `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${stockCode.toUpperCase()}&apikey=JCPHBSQUN3UH142O`
     );
     return response.json();
   };
@@ -59,7 +59,7 @@ export default function DashboardAppPage() {
   const onError = (error) => {
     console.log(error)
   }
-  const { data, status, refetch, isLoading, isFetching } = useQuery('timeSeries', fetchTimeSeries, {
+  const { data, status, refetch, isLoading, isFetching, isError } = useQuery('timeSeries', fetchTimeSeries, {
     refetchOnWindowFocus: false,
     enabled: false, // disable this query from automatically running
     onSuccess,
@@ -79,6 +79,7 @@ export default function DashboardAppPage() {
   if (status === 'loading') {
     return <div>Loading...</div>;
   }
+ 
 
   if(auth.currentUser?.email === null){
     return (
@@ -134,7 +135,7 @@ export default function DashboardAppPage() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
-            {data ? (
+            {data || status === 'error' ? (
               <AppWebsiteVisits
                 title={`${stockCode} Open Price by month (Past 15 months)`}
                 subheader="(+43%) than last year"
@@ -156,7 +157,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="Data Used for Extrapolation"
-              list={[...Array(+nInputs && +nInputs)].map((_, index) => ({
+              list={[...Array(+nInputs && +nInputs + 1)].map((_, index) => ({
                 id: faker.datatype.uuid(),
                 title: valuePerDate && valuePerDate.map((v) => v)[index],
                 type: `order${index + 1}`,
